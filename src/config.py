@@ -1371,7 +1371,9 @@ class ConfigGui:
                                   encoding = wx.FONTENCODING_ISO8859_1)
                 setattr(cfgGl, fname, fi.font.GetNativeFontInfo().ToString())
 
-            fx, fy = util.getTextExtent(fi.font, "O")
+            # The extent is rounded. Multiplying by 100 will give us greater precision
+            hundredFx, fy = util.getTextExtent(fi.font, "O" * 100)
+            fx = hundredFx / 100.0
 
             fi.fx = max(1, fx)
             fi.fy = max(1, fy)

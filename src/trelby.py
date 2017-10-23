@@ -11,6 +11,7 @@ import finddlg
 import gutil
 import headersdlg
 import locationsdlg
+import math
 import misc
 import myimport
 import mypickle
@@ -1520,7 +1521,7 @@ class MyCtrl(wx.Control):
                     acFi = fi
                     dc.SetPen(cfgGui.cursorPen)
                     dc.SetBrush(cfgGui.cursorBrush)
-                    dc.DrawRectangle(t.x + self.sp.column * fx, y, fx, fi.fy)
+                    dc.DrawRectangle(t.x + self.sp.column * fx, y, math.ceil(fx), fi.fy)
 
             if len(t.text) != 0:
                 tl = texts.get(fi.font)
