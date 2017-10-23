@@ -284,6 +284,11 @@ class DisplayPanel(wx.Panel):
         fd = wx.FontData()
         nfi = wx.NativeFontInfo()
         nfi.FromString(nfont)
+
+        # Mac does not load a font by default, so force it to use Courier
+        if not nfi.FaceName:
+            nfi.FromUserString("Courier")
+
         font = wx.FontFromNativeInfo(nfi)
         fd.SetInitialFont(font)
 
@@ -316,6 +321,10 @@ class DisplayPanel(wx.Panel):
         for i in range(len(names)):
             nfi = wx.NativeFontInfo()
             nfi.FromString(getattr(self.cfg, self.fontsLb.GetClientData(i)))
+
+            # Mac does not load a font by default, so force it to use Courier
+            if not nfi.FaceName:
+                nfi.FromUserString("Courier")
 
             ps = nfi.GetPointSize()
             s = nfi.GetFaceName()
