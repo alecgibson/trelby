@@ -3,7 +3,6 @@ from distutils.command.build_scripts import build_scripts as _build_scripts
 from distutils.command.bdist_rpm import bdist_rpm as _bdist_rpm
 from distutils.command.install_data import install_data as _install_data
 from distutils.core import Command
-from distutils.core import setup
 from distutils.util import convert_path
 
 import fileinput
@@ -124,6 +123,11 @@ options = {
         "compressed": 1,
         "optimize": 2,
         "includes": includes,
+    },
+    "py2app": {
+        "argv_emulation": True,
+        "iconfile": "icon256.icns",
+        "includes": includes,
     }
 }
 
@@ -138,10 +142,13 @@ packageData = {"src": ["../resources/*",
 ]}
 dataFiles = []
 
-if sys.platform == "win32":
-    import py2exe
+if sys.platform == "darwin":
+    from setuptools import setup
+else:
+    from distutils.core import setup
 
-    # Distutils' package_data argument doesn't work with py2exe.
+if sys.platform == "darwin" or sys.platform == "win32":
+    # Distutils' package_data argument doesn't work with py2exe or py2app.
     # On the other hand, we don't need the data_files argument
     # (which we're only using under Linux for stuff like our .desktop file and
     # man page that go to system directories), so we'll just use it instead
@@ -149,8 +156,11 @@ if sys.platform == "win32":
     for path, files in packageData.iteritems():
         for file in files:
             dataFile = os.path.normpath(os.path.join(path, file))
-            dataFiles.append((os.path.dirname(dataFile),glob.glob(dataFile)))
+            dataFiles.append((os.path.dirname(dataFile), glob.glob(dataFile)))
     packageData = {}
+
+if sys.platform == "win32":
+    import py2exe
 
     platformOptions = dict(
         zipfile = "library.zip",
@@ -160,6 +170,13 @@ if sys.platform == "win32":
                 "icon_resources": [(1, "icon32.ico")],
            }]
         )
+
+elif sys.platform == "darwin":
+    platformOptions = dict(
+        app=["bin/trelby"],
+        setup_requires=["py2app"],
+    )
+
 else:
     dataFiles = [
         ("applications", ["trelby.desktop"]),

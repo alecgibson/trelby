@@ -36,7 +36,7 @@ this, that aspect of the program will not work.
 You can run "make dist", which prepares all 4 and also generates a Linux
 distribution package which you can ignore.
 
-2.5. Preparing for a Windows build
+2.1. Preparing for a Windows build
 ==================================
 
 If you want to create the Windows package, you'll need to place the
@@ -67,11 +67,36 @@ Then, on Windows, to create the installer:
 
 Your freshly created Setup-Trelby-<version>.exe should be ready.
 
+2.2. Preparing for a Mac build
+==================================
+
+Make sure you install the dependencies:
+
+- wxMac
+- wxPython (must be the same version as wxMac)
+- lxml
+- py2app
+
+Once you have those installed, you should be able to run Trelby in test
+mode (see below).
+
+To build the distributable package:
+
+  1. Clean up your workspace: `rm -rf build dist`
+  2. Build the app `python setup.py py2app`
+
+Note that you may see an error: `[Errno 1] Operation not permitted`.
+You can try re-running the command with `sudo`, or failing that,
+this can be fixed by disabling SIP:
+https://stackoverflow.com/questions/33197412/py2app-operation-not-permitted
+
+The distributable should be at `dist/Trelby.app`.
+
 
 3. Running Trelby in test mode
 ==============================
 
-On Linux:
+On Mac/Linux:
 
  $ cd ~/trelby/
  $ bin/trelby --test
@@ -96,10 +121,10 @@ as follows:
 
  -The following characters activate special behavior:
 
-  -"å": Load "sample.trelby".
+  -"Ã¥": Load "sample.trelby".
 
-  -"¤": Call function MyCtrl.cmdTest.
+  -"Â¤": Call function MyCtrl.cmdTest.
 
-  -"½": Run speed tests.
+  -"Â½": Run speed tests.
 
    (The above characters are in the ISO-8859-1 character set.)
