@@ -1008,8 +1008,6 @@ class MyCtrl(wx.Control):
         self.sp.clearMark()
         self.clearAutoComp()
 
-        wasAtStart = self.sp.line == 0
-
         wx.BeginBusyCursor()
 
         if not spellcheck.loadDict(mainFrame):
@@ -1023,12 +1021,7 @@ class MyCtrl(wx.Control):
         wx.EndBusyCursor()
 
         if not found:
-            s = ""
-
-            if not wasAtStart:
-                s = "\n\n(Starting position was not at\n"\
-                    "the beginning of the script.)"
-            wx.MessageBox("Spell checker found no errors." + s, "Results",
+            wx.MessageBox("Spell checker found no errors.", "Results",
                           wx.OK, mainFrame)
 
             return
@@ -1344,11 +1337,11 @@ class MyCtrl(wx.Control):
             if addChar:
                 cs.char = chr(kc)
 
-                if opts.isTest and (cs.char == "å"):
+                if opts.isTest and (cs.char == "ï¿½"):
                     self.loadFile(u"sample.trelby")
-                elif opts.isTest and (cs.char == "¤"):
+                elif opts.isTest and (cs.char == "ï¿½"):
                     self.cmdTest(cs)
-                elif opts.isTest and (cs.char == "½"):
+                elif opts.isTest and (cs.char == "ï¿½"):
                     self.cmdSpeedTest(cs)
                 else:
                     self.sp.addCharCmd(cs)

@@ -145,7 +145,8 @@ class SpellChecker:
                 self.cnames[w] = None
 
         self.word = None
-        self.line = self.sp.line
+        # always start at the beggining of the script
+        self.line = 0
 
         # we can't use the current column, because if the cursor is in the
         # middle of a word, we flag the partial word as misspelled.
